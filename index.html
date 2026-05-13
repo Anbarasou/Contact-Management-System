@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Management System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <!-- Clipboard SVG Icon -->
+        <span class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+            <line x1="9" y1="12" x2="15" y2="12"/>
+            <line x1="9" y1="16" x2="13" y2="16"/>
+          </svg>
+        </span>
+        <span class="logo-text">ContactBook</span>
+      </div>
+      <p class="header-sub">Your simple contact manager</p>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN LAYOUT ===================== -->
+  <main class="container">
+
+    <!-- LEFT PANEL: Add Contact Form -->
+    <section class="card form-card">
+
+      <h2 class="card-title">
+        <!-- Plus Circle SVG Icon -->
+        <span class="title-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </span>
+        Add New Contact
+      </h2>
+
+      <div class="form-group">
+        <label for="name">
+          <!-- User SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Full Name
+        </label>
+        <input type="text" id="name" placeholder="e.g. Arjun Sharma" />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">
+          <!-- Phone SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.59a16 16 0 0 0 5.9 5.9l.96-.96a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          Phone Number
+        </label>
+        <input type="tel" id="phone" placeholder="e.g. 9876543210" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">
+          <!-- Mail SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Email Address
+        </label>
+        <input type="email" id="email" placeholder="e.g. arjun@email.com" />
+      </div>
+
+      <button class="btn btn-primary" onclick="addContact()">
+        <!-- Save / Check SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Save Contact
+      </button>
+
+      <div id="toast" class="toast hidden"></div>
+    </section>
+
+    <!-- RIGHT PANEL: View Contacts -->
+    <section class="card table-card">
+      <div class="table-header">
+        <h2 class="card-title">
+          <!-- Users SVG Icon -->
+          <span class="title-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </span>
+          All Contacts
+        </h2>
+
+        <!-- Search bar with SVG icon -->
+        <div class="search-wrap">
+          <span class="search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by name, phone, email…"
+            oninput="searchContacts()"
+          />
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="contactTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="contactBody">
+            <!-- Rows inserted by script.js -->
+          </tbody>
+        </table>
+
+        <!-- Empty state with SVG inbox icon -->
+        <div id="emptyState" class="empty-state hidden">
+          <span class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/>
+              <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+            </svg>
+          </span>
+          <p>No contacts found. Add your first contact!</p>
+        </div>
+      </div>
+
+      <div class="count-bar">
+        Total: <strong id="contactCount">0</strong> contact(s)
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <span class="footer-icon">
+      <!-- Zap / Bolt SVG for footer -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+    </span>
+    Built with Python Flask + SQLite &nbsp;|&nbsp; Beginner Mini Project
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
