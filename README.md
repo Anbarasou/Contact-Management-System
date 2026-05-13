@@ -1,6 +1,6 @@
 # 📋 Contact Management System
 
-### A Beginner-Level Full Stack Mini Project | Python Flask + SQLite
+ Full Stack Mini Project | Python Flask + SQLite
 
 \---
 
